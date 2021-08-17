@@ -10,6 +10,7 @@ __pycache__/
 *cache*
 *outputs*
 *runs*
+*wandb*
 
 # Distribution / packaging
 .Python
