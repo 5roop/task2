@@ -8,6 +8,14 @@ The logs produced with the faulty data had been scrubbed from the W&B website fo
 
 During the optimization some nice examples were noticed, but the bigger part of the runs resulted in abysmally bad performance metrics. The automated result capturing on the W&B website really proved useful for quick sorting and selecting the best hyperparameter setups.
 
+Although the run times were approximately equal to those encountered last time, the search for optimal parameters dragged on and was finally halted after a day. Further investigations will be needed to determine what exactly bayesian search implementation does and how it differs from grid search. It might also be a good idea to introduce all continuous parameter options (e.g. learning rate) as a set of discreet options in order to impose better control over the search options.
+
+About 300 runs were performed in total, afterwards another optimization was started with a narrower scope around the hyperparameters that proved better in the first one. Unfortunately no better setups were found. 
+
+Although I optimized for two hyperparameters with three possibilities each I noticed the optimizer performs more than 9 runs. The reason for this is unclear to me.
+
+
+
 ## TODO
 
 
