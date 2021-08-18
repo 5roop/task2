@@ -43,6 +43,7 @@ Note that the training was performed a few times to get a better picture of its 
 
 
 ### Model: EMBEDDIA/crosloengual-bert
+On Croatian dataset:
 
 |language|accuracy|f1 score|
 |---|---|---|
@@ -52,8 +53,18 @@ Note that the training was performed a few times to get a better picture of its 
 |hr|0.808|0.799|
 |hr|0.805|0.795|
 
+On Slovenian dataset:
 
-    
+
+|language|accuracy|f1 score|
+|---|---|---|
+|sl|0.757|0.752|
+|sl|0.756|0.753|
+|sl|0.766|0.761|
+|sl|0.758|0.754|
+|sl|0.762|0.757|
+
+Slovenian dataset performed significantly better than on previous tests, hinting that perhaps the models had been overfit in the past.
 
 ## On comparing two models:
 
