@@ -12,8 +12,44 @@ Although the run times were approximately equal to those encountered last time, 
 
 About 300 runs were performed in total, afterwards another optimization was started with a narrower scope around the hyperparameters that proved better in the first one. Unfortunately no better setups were found. 
 
-Although I optimized for two hyperparameters with three possibilities each I noticed the optimizer performs more than 9 runs. The reason for this is unclear to me.
+Although I optimized for two hyperparameters with three possibilities each I noticed the optimizer performs more than 9 runs. The reason for this is as of yet unclear to me. After 13 iterations the optimization was interrupted.
 
+## Optimal hyperparameters:
+
+```python
+model_args = {
+    "num_train_epochs": 10,
+    "learning_rate": 0.00002927,
+    "train_batch_size": 80
+}
+```
+
+
+
+### Model: `classla/bcms-bertic`
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.829|0.82|
+|hr|0.836|0.828|
+|hr|0.832|0.822|
+|hr|0.832|0.823|
+|hr|0.835|0.824|
+|hr|0.833|0.824|
+|hr|0.837|0.827|
+
+Note that the training was performed a few times to get a better picture of its behaviour. May it be noted that in comparison with the results from Task1 these metrics are worse, and the optimization of hyperparameters seems useless, but it must be observed that the input data to both tests were different, as before we only used the `lgbt` dataset and the numbers can not be compared directly.
+
+
+## On comparing two models:
+
+Supposing we have two models, fine trained on the same training data, we could split test data into multiple ($2\rightarrow 5$) folds and calculate some statistic on either the individual folds, or perhaps even better, on all combinations of folds.
+
+This could be concisely and correctly done using `GroupKFold` from `sklearn.model_selection`.
+
+After acquiring the data it would seem prudent some analysis be done to check whether the t-test can be used, namely if the distribution of the measurements is normal. Since the number of such measurements will likely be small, this is difficult to check, which is why it is probably better to start with Wilcoxon test, which only requires symmetric distribution about its mean value and behaves better for small sample sizes.
+
+It would be interesting to check how both tests perform on the same model. 
 
 
 ## TODO
@@ -21,9 +57,7 @@ Although I optimized for two hyperparameters with three possibilities each I not
 
 ~~0. Appending the two domain specific datasources to create a single dataset~~
 
-1. Hyperparameter optimization 
-
-
+~~1. Hyperparameter optimization~~
 
 2. evaluate the most promising models (per language) on the lgbt+migrants FRENK data
 
