@@ -41,6 +41,20 @@ model_args = {
 Note that the training was performed a few times to get a better picture of its behaviour. May it be noted that in comparison with the results from Task1 these metrics are worse, and the optimization of hyperparameters seems useless, but it must be observed that the input data to both tests were different, as before we only used the `lgbt` dataset and the numbers can not be compared directly.
 
 
+
+### Model: EMBEDDIA/crosloengual-bert
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.81|0.8|
+|hr|0.803|0.792|
+|hr|0.8|0.791|
+|hr|0.808|0.799|
+|hr|0.805|0.795|
+
+
+    
+
 ## On comparing two models:
 
 Supposing we have two models, fine trained on the same training data, we could split test data into multiple ($2\rightarrow 5$) folds and calculate some statistic on either the individual folds, or perhaps even better, on all combinations of folds.
