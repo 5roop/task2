@@ -42,7 +42,7 @@ Note that the training was performed a few times to get a better picture of its 
 
 
 
-### Model: EMBEDDIA/crosloengual-bert
+### Model: `EMBEDDIA/crosloengual-bert`
 On Croatian dataset:
 
 |language|accuracy|f1 score|
@@ -64,7 +64,24 @@ On Slovenian dataset:
 |sl|0.758|0.754|
 |sl|0.762|0.757|
 
-Slovenian dataset performed significantly better than on previous tests, hinting that perhaps the models had been overfit in the past.
+Slovenian dataset performed significantly better than on previous tests (Task1, same checkpoint), hinting that perhaps the models had been overfit in the past.
+
+
+All aforementioned results were obtained by training the checkpoint model from scratch. To determine whether repeated training of the same model had any significant effect I also tried that:
+
+
+
+|language|model|accuracy|f1 score|
+|---|---|---|---|
+|hr|classla/bcms-bertic|0.830|0.821|
+|hr|classla/bcms-bertic|0.829|0.819|
+|hr|classla/bcms-bertic|0.817|0.808|
+|hr|classla/bcms-bertic|0.822|0.812|
+|hr|classla/bcms-bertic|0.828|0.818|
+|hr|classla/bcms-bertic|0.823|0.813|
+|hr|classla/bcms-bertic|0.830|0.820|
+
+There seems to be no trend and we got a rough insight into how much training perturbs the performance of the model.
 
 ## On comparing two models:
 
@@ -72,7 +89,7 @@ Supposing we have two models, fine trained on the same training data, we could s
 
 This could be concisely and correctly done using `GroupKFold` from `sklearn.model_selection`.
 
-After acquiring the data it would seem prudent some analysis be done to check whether the t-test can be used, namely if the distribution of the measurements is normal. Since the number of such measurements will likely be small, this is difficult to check, which is why it is probably better to start with Wilcoxon test, which only requires symmetric distribution about its mean value and behaves better for small sample sizes.
+After acquiring the data it would seem prudent some analysis be done to check whether the t-test can be used, namely if the distribution of the measurements is normal. Since the number of such measurements will likely be small, this is difficult to check, which is why it is probably better to start with Wilcoxon test, which only requires symmetric distribution about its mean value and behaves better for small sample sizes. In "How to avoid machine learning pitfalls: a guide for academic researchers" Michael A. Lones recommends Mann-Whitney's U test for similar reasons.
 
 It would be interesting to check how both tests perform on the same model. 
 
