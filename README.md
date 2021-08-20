@@ -81,7 +81,7 @@ All aforementioned results were obtained by training the checkpoint model from s
 |hr|classla/bcms-bertic|0.823|0.813|
 |hr|classla/bcms-bertic|0.830|0.820|
 
-There seems to be no trend and we got a rough insight into how much training perturbs the performance of the model.
+There seems to be no trend and we got a rough insight into how much training perturbs the performance of the model. 
 
 ## On comparing two models:
 
@@ -89,9 +89,44 @@ Supposing we have two models, fine trained on the same training data, we could s
 
 This could be concisely and correctly done using `GroupKFold` from `sklearn.model_selection`.
 
-After acquiring the data it would seem prudent some analysis be done to check whether the t-test can be used, namely if the distribution of the measurements is normal. Since the number of such measurements will likely be small, this is difficult to check, which is why it is probably better to start with Wilcoxon test, which only requires symmetric distribution about its mean value and behaves better for small sample sizes. In "How to avoid machine learning pitfalls: a guide for academic researchers" Michael A. Lones recommends Mann-Whitney's U test for similar reasons.
+After acquiring the data it would seem prudent some analysis be done to check whether the t-test can be used, namely if the distribution of the measurements is normal. Since the number of such measurements will likely be small, this is difficult to check, which is why it is probably better to start with Wilcoxon test, which only requires symmetric distribution about its mean value and behaves better for small sample sizes. In "How to avoid machine learning pitfalls: a guide for academic researchers" Michael A. Lones recommends Mann-Whitney's U test for similar reasons. Wilcoxon test expects two related paired samples, which is not the case in our use case, but should be OK anyway.
 
-It would be interesting to check how both tests perform on the same model. 
+It would be interesting to check how all tests perform on the same model.
+
+## HuggingFace API for fine tuning
+
+Once more I hit a brickwall when trying to fine tune preexisting models via the HuggingFace interface. The failed attempt is documented in `4-HF trial.ipynb`. Traceback reported being out of memory:
+
+```python
+RuntimeError: CUDA out of memory. Tried to allocate 120.00 MiB (GPU 0; 31.75 GiB total capacity; 30.30 GiB already allocated; 92.75 MiB free; 30.46 GiB reserved in total by PyTorch)
+```
+
+Inspection with `nvidia-smi` really showed that a lot of resources had been reserved by a process with a weird PID, so I killed all my processes and attempted the training again. Before commencing a `nvidia-smi` command was issued again and showed that no memory had been used up, as shown below:
+
+```
+Fri Aug 20 12:26:49 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-SXM2...  On   | 00000000:03:00.0 Off |                    0 |
+| N/A   31C    P0    41W / 300W |      0MiB / 32510MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+```
+
+but after restarting my training pipeline the same `RuntimeError` was raised. This is a nasty issue, especially because there really should be enough resources available for the allocation of the 120 Mb. Since training without GPU support has proven orders of magnitude more time consuming I shall not pursue that road any more.
 
 
 ## TODO
