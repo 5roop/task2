@@ -157,7 +157,10 @@ I tried increasing the number of training epochs to 100 to compensate for the lo
 | --- | ---| ---| ---| ---|
 |hr|classla/bcms-bertic | training: HF, evaluation: simpletransformers | 0.429 |  0.406|
 
-This means that it will probably be necessary to find a way to export models from `simpletransformers` to HF and then publish them.
+Further attempts at optimizing the setup raised fatal errors and produced so much auxiliary data that the disk was soon full and regular flushing was required to mitigate that. After decreasing the number of epochs to a managable amount the performance dropped even more.
+
+
+All the problems mentioned above mean that it will probably be necessary to find a way to export models from `simpletransformers` to HF and then publish them.
 
 ## TODO
 
