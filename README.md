@@ -128,6 +128,32 @@ Fri Aug 20 12:26:49 2021
 
 but after restarting my training pipeline the same `RuntimeError` was raised. This is a nasty issue, especially because there really should be enough resources available for the allocation of the 120 Mb. Since training without GPU support has proven orders of magnitude more time consuming I shall not pursue that road any more.
 
+Finally after clicking through many issues on github and HF forums an answer was found stating that not many devices can handle batch sizes greater than 4 (although this was not an issue with `simpletransformers`...) After changing that parameter it worked.
+
+```Training completed. Do not forget to share your model on huggingface.co/models =)```
+
+Evaluating the model proved a bit more difficult, as HF interface doesn't seem to include a high level predict methods. `simpletransformers` offer that, but saving and uploading the model is not documented in the docs. I therefore opted for a hybrid approach where I trained the model with HF interface, saved it locally, loaded it with `simpletransformers` and performed evaluations there.
+
+My first attempt was dissapointing: after training the model successully in HF I saved it and evaluated it on test data. Without further training I obtained the following results:
+
+|Language | model | method | accuracy | f_1|
+| --- | ---| ---| ---| ---|
+|hr|classla/bcms-bertic | training: HF, evaluation: simpletransformers | 0.597 |  0.374|
+
+The hyperparameters used were
+```
+    output_dir = "./outputs",
+    num_train_epochs = 30,
+    per_device_train_batch_size = 4,
+    warmup_steps = 500,
+    learning_rate = 3e-5,
+    logging_dir = "./runs",
+    overwrite_output_dir=True
+```
+
+I tried increasing the number of training epochs to 100 to compensate for the lowered batchsize, but I encoutered errors that rendered this option unfeasible, so I settled for 30.
+
+
 
 ## TODO
 
