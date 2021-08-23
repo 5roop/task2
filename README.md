@@ -140,7 +140,7 @@ My first attempt was dissapointing: after training the model successully in HF I
 | --- | ---| ---| ---| ---|
 |hr|classla/bcms-bertic | training: HF, evaluation: simpletransformers | 0.597 |  0.374|
 
-The hyperparameters used were
+The target accuracy obtained in previous runs was higher than 0.8, so this is quite a miserable result. The hyperparameters used were
 ```
     output_dir = "./outputs",
     num_train_epochs = 30,
@@ -151,9 +151,13 @@ The hyperparameters used were
     overwrite_output_dir=True
 ```
 
-I tried increasing the number of training epochs to 100 to compensate for the lowered batchsize, but I encoutered errors that rendered this option unfeasible, so I settled for 30.
+I tried increasing the number of training epochs to 100 to compensate for the lowered batchsize, but I encoutered errors that rendered this option unfeasible, so I settled for 30. Sadly, the results are even worse.
 
+|Language | model | method | accuracy | f_1|
+| --- | ---| ---| ---| ---|
+|hr|classla/bcms-bertic | training: HF, evaluation: simpletransformers | 0.429 |  0.406|
 
+This means that it will probably be necessary to find a way to export models from `simpletransformers` to HF and then publish them.
 
 ## TODO
 
