@@ -162,6 +162,12 @@ Further attempts at optimizing the setup raised fatal errors and produced so muc
 
 All the problems mentioned above mean that it will probably be necessary to find a way to export models from `simpletransformers` to HF and then publish them.
 
+I returned to `simpletransformers` and trained the model as before. I got familiar with the parameters that  allowed me control over the output destination. As it turned out just specifying the output directory as the checkpoint is enough for HF to load the tokenizer and the model, but using the loaded model proved difficult as the tokenizer could not extract all the necessary parameters from the given file.
+
+
+After carefully reviewing my HF code I discovered a bug in it and after correcting it I trained a HF model again. More fiddling was necessary to prevent errors due to the lack of disk space.
+
+
 ## TODO
 
 
