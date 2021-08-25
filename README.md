@@ -246,7 +246,22 @@ Upon using the same methodology for stock `classla/bcms-bertic ` checkpoint, I o
 |hr|0.832|0.824|
 |hr|0.833|0.824|
 
-It is unfortunately very clear that we did not manage to best the already published checkpoint on the HF model hub. I plan to 
+It is unfortunately very clear that we did not manage to best the already published checkpoint on the HF model hub. I trained the saved checkpoint some more (for another 5 epochs, as apparently the virtual machine can not handle more than that). After this I was able to achieve marginally better results, albeit still worse than what I can do with `simpletransformers` in a fraction of the time. Results are attached below:
+
+|language|accuracy|f1 score|
+|---|---|---|
+    |hr|0.824|0.814|
+|hr|0.825|0.816|
+|hr|0.823|0.814|
+|hr|0.823|0.812|
+|hr|0.825|0.815|
+|hr|0.823|0.814|
+|hr|0.821|0.811|
+|hr|0.824|0.815|
+|hr|0.82|0.809|
+|hr|0.822|0.812|
+
+Since the performance is consistantly better, I decide to repeat the training with HF for a few times.
 ## TODO
 
 
