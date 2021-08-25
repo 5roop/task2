@@ -168,7 +168,7 @@ I returned to `simpletransformers` and trained the model as before. I got famili
 After carefully reviewing my HF code I discovered a bug in it and after correcting it I trained a HF model again. More fiddling was necessary to prevent errors due to the lack of disk space. Finally I was able to produce a model that on the first evaluation achieved accuracies and f1 scores of about 0.8, which is acceptable. Subsequent evaluations however fluctuated a great deal. I compiled a table below:
 
 
-# Model: ./finetuned_models/HR_hate___classla_bcms-bertic_5/
+### Model: ./finetuned_models/HR_hate___classla_bcms-bertic_5/
 
 |language|accuracy|f1 score|
 |---|---|---|
@@ -217,7 +217,36 @@ After implementing this methodology I finally get consistent performance:
 |hr|0.815|0.806|
 |hr|0.815|0.806|
 
-In order to evaluate 
+In order to evaluate different models it will therefore be necessary to train and evaluate the models in subsequent runs. I proceeded with evaluating my prevously pretrained checkpoint and obtained the following results:
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.811|0.801|
+|hr|0.811|0.802|
+|hr|0.819|0.81|
+|hr|0.821|0.811|
+|hr|0.82|0.810|
+|hr|0.817|0.808|
+|hr|0.818|0.808|
+|hr|0.817|0.807|
+|hr|0.817|0.808|
+|hr|0.815|0.804|
+
+Upon using the same methodology for stock `classla/bcms-bertic ` checkpoint, I obtained the following statistics:
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.832|0.823|
+|hr|0.833|0.825|
+|hr|0.831|0.821|
+|hr|0.827|0.817|
+|hr|0.83|0.82|
+|hr|0.829|0.82|
+|hr|0.832|0.823|
+|hr|0.834|0.824|
+|hr|0.832|0.824|
+|hr|0.833|0.824|
+
+It is unfortunately very clear that we did not manage to best the already published checkpoint on the HF model hub. I plan to 
 ## TODO
 
 
