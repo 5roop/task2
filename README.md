@@ -165,9 +165,59 @@ All the problems mentioned above mean that it will probably be necessary to find
 I returned to `simpletransformers` and trained the model as before. I got familiar with the parameters that  allowed me control over the output destination. As it turned out just specifying the output directory as the checkpoint is enough for HF to load the tokenizer and the model, but using the loaded model proved difficult as the tokenizer could not extract all the necessary parameters from the given file.
 
 
-After carefully reviewing my HF code I discovered a bug in it and after correcting it I trained a HF model again. More fiddling was necessary to prevent errors due to the lack of disk space.
+After carefully reviewing my HF code I discovered a bug in it and after correcting it I trained a HF model again. More fiddling was necessary to prevent errors due to the lack of disk space. Finally I was able to produce a model that on the first evaluation achieved accuracies and f1 scores of about 0.8, which is acceptable. Subsequent evaluations however fluctuated a great deal. I compiled a table below:
 
 
+# Model: ./finetuned_models/HR_hate___classla_bcms-bertic_5/
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.7|0.699|
+|hr|0.559|0.3782|
+|hr|0.393|0.337|
+|hr|0.808|0.798|
+|hr|0.19|0.1880|
+|hr|0.217|0.2024|
+|hr|0.218|0.217|
+|hr|0.418|0.351|
+|hr|0.758|0.758|
+|hr|0.188|0.1880|
+|hr|0.391|0.280|
+|hr|0.494|0.456|
+|hr|0.272|0.2265|
+|hr|0.681|0.632|
+|hr|0.798|0.7|
+|hr|0.198|0.1976|
+|hr|0.29|0.2898|
+|hr|0.811|0.799|
+|hr|0.345|0.334|
+|hr|0.754|0.734|
+
+When evaluating it with kernel restarts between evaluations the situation did not improve significantly:
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.775|0.768|
+|hr|0.508|0.495|
+|hr|0.646|0.566|
+|hr|0.186|0.184|
+The issue seems to stem from randomly initiated layers in the `BertForSequenceClassification` model, indicating that training the model in HF is not enough on its own, and even pretrained checkpoints should be trained in `simpletransformers` as well.
+
+After implementing this methodology I finally get consistent performance:
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+|hr|0.815|0.806|
+
+In order to evaluate 
 ## TODO
 
 
@@ -175,7 +225,7 @@ After carefully reviewing my HF code I discovered a bug in it and after correcti
 
 ~~1. Hyperparameter optimization~~
 
-2. evaluate the most promising models (per language) on the lgbt+migrants FRENK data
+~~2. evaluate the most promising models (per language) on the lgbt+migrants FRENK data~~
 
 3. perform the evaluation by fine-tuning a model five times (suggestions to more or less iterations welcome), and present the mean of the macro-F1 and accuracy, as well as calculate whether the differences to other models results are statistically significant, quite probably via a t-test (other suggestions welcome, wilcoxon might be better due to small number of observations, or not? - please investigate)
 
