@@ -261,7 +261,28 @@ It is unfortunately very clear that we did not manage to best the already publis
 |hr|0.82|0.809|
 |hr|0.822|0.812|
 
-Since the performance is consistantly better, I decide to repeat the training with HF for a few times.
+Since the performance is consistantly better, I decide to repeat the training with HF for a few times. Unfortunately, the results were not much better after 5 further iterations:
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.812|0.803|
+|hr|0.812|0.804|
+|hr|0.815|0.806|
+|hr|0.815|0.805|
+|hr|0.808|0.801|
+|hr|0.814|0.806|
+|hr|0.809|0.803|
+|hr|0.811|0.803|
+|hr|0.809|0.802|
+|hr|0.81|0.804|
+
+I kept the successive finetuned models and compared also the middle stages, but they achieved similar results than the result above and still couldn't surpass the performance we saw with just one training in `simpletransformers`.
+
+With this abnoxious detail in mind I decided not to pursue the final stage, which would be uploading the model to HuggingFace model hub. Although the training took quite some time I found it even more annoying that the evaluation phase needed so much optimization before predictions could be made. In the future before receiving specific hints about possible improvements I plan to pursue two pathways:
+
+* Reduce the optimization parameters in the evaluation phase so that the evaluation is performed quicker and check if the results differ significantly (so if even with pruned training the published version is better than my 'finetudned' checkpoint)
+* Check whether some other published model checkpoint might benefit from additional training.
+
+
 ## TODO
 
 
