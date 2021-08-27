@@ -282,6 +282,40 @@ With this abnoxious detail in mind I decided not to pursue the final stage, whic
 * Reduce the optimization parameters in the evaluation phase so that the evaluation is performed quicker and check if the results differ significantly (so if even with pruned training the published version is better than my 'finetudned' checkpoint)
 * Check whether some other published model checkpoint might benefit from additional training.
 
+I started with the latter bulletpoint as it is more honest and scientifically justifiable than the first one. One of the models that also proved quite good in the previous tests was `crosloengual-bert`, so I left it to train 5 times (about 10 hours of wall time) and discovered the same trend:
+
+
+
+### Model: ./finetuned_models/HR_hate___EMBEDDIA/crosloengual-bert_5
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.74|0.728|
+|hr|0.74|0.728|
+|hr|0.745|0.731|
+|hr|0.746|0.733|
+|hr|0.739|0.726|
+|hr|0.743|0.73|
+|hr|0.742|0.727|
+|hr|0.744|0.728|
+|hr|0.74|0.725|
+|hr|0.739|0.724|
+
+### Model: EMBEDDIA/crosloengual-bert
+
+|language|accuracy|f1 score|
+|---|---|---|
+|hr|0.806|0.798|
+|hr|0.798|0.789|
+|hr|0.798|0.789|
+|hr|0.805|0.796|
+|hr|0.805|0.796|
+|hr|0.805|0.796|
+|hr|0.808|0.8|
+|hr|0.808|0.798|
+|hr|0.809|0.8|
+|hr|0.806|0.797|
+
 
 ## TODO
 
