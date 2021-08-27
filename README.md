@@ -282,9 +282,7 @@ With this abnoxious detail in mind I decided not to pursue the final stage, whic
 * Reduce the optimization parameters in the evaluation phase so that the evaluation is performed quicker and check if the results differ significantly (so if even with pruned training the published version is better than my 'finetudned' checkpoint)
 * Check whether some other published model checkpoint might benefit from additional training.
 
-I started with the latter bulletpoint as it is more honest and scientifically justifiable than the first one. One of the models that also proved quite good in the previous tests was `crosloengual-bert`, so I left it to train 5 times (about 10 hours of wall time) and discovered the same trend:
-
-
+I started with the latter bulletpoint as it is more honest and scientifically justifiable than the first one. One of the models that also proved quite good in the previous tests was `crosloengual-bert`, so I left it overnight to train 5 times (about 10 hours of wall time), avter each iteration I ran a command that purged the auxiliary files to prevent errors due to low disk space, and in the morning discovered the same trend:
 
 ### Model: ./finetuned_models/HR_hate___EMBEDDIA/crosloengual-bert_5
 
@@ -316,6 +314,7 @@ I started with the latter bulletpoint as it is more honest and scientifically ju
 |hr|0.809|0.8|
 |hr|0.806|0.797|
 
+It is again clear that we do not need sophisticated statistical tools to determine to determine that our model is not yet worthy of publication. Judging from the trend observed not even longer training times can improve the accuracies. 
 
 ## TODO
 
