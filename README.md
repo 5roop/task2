@@ -277,12 +277,12 @@ Since the performance is consistantly better, I decide to repeat the training wi
 
 I kept the successive finetuned models and compared also the middle stages, but they achieved similar results than the result above and still couldn't surpass the performance we saw with just one training in `simpletransformers`.
 
-With this abnoxious detail in mind I decided not to pursue the final stage, which would be uploading the model to HuggingFace model hub. Although the training took quite some time I found it even more annoying that the evaluation phase needed so much optimization before predictions could be made. In the future before receiving specific hints about possible improvements I plan to pursue two pathways:
+With this abnoxious detail in mind I decided not to pursue the final stage, which would be uploading the model to HuggingFace model hub. Although the training took quite some time I found it even more annoying that the evaluation phase needed so much optimization before predictions could be made. In the future before receiving specific hints about possible improvements I wanted to pursue two pathways:
 
-* Reduce the optimization parameters in the evaluation phase so that the evaluation is performed quicker and check if the results differ significantly (so if even with pruned training the published version is better than my 'finetudned' checkpoint)
+* Reduce the optimization parameters in the evaluation phase so that the evaluation is performed quicker and check if the results differ significantly (so if even with pruned training the published version is better than my 'finetuned' checkpoint)
 * Check whether some other published model checkpoint might benefit from additional training.
 
-I started with the latter bulletpoint as it is more honest and scientifically justifiable than the first one. One of the models that also proved quite good in the previous tests was `crosloengual-bert`, so I left it overnight to train 5 times (about 10 hours of wall time), avter each iteration I ran a command that purged the auxiliary files to prevent errors due to low disk space, and in the morning discovered the same trend:
+I opted for the latter bulletpoint as it is more honest and scientifically justifiable than the first one. One of the models that also proved quite good in the previous tests was `crosloengual-bert`, so I left it overnight to train 5 times (about 10 hours of wall time), after each iteration I ran a command that purged the auxiliary files to prevent errors due to low disk space, and in the morning discovered the same trend:
 
 ### Model: ./finetuned_models/HR_hate___EMBEDDIA/crosloengual-bert_5
 
@@ -333,7 +333,7 @@ training_args = TrainingArguments(
 )
 ```
 
-and when evaluating, `simpletransformers` was used with these parameters:
+and when evaluating, `simpletransformers` training was used with these parameters:
 ```python
 model_args = {
         "num_train_epochs": 5,
@@ -342,6 +342,14 @@ model_args = {
         "train_batch_size": 40
     }
 ```
+
+## TD;DR
+
+* I perform training with HF and evaluation (which requires some further training) with `simpletransformers`
+* HF crashes unexpectedly if the parameters are not carefully optimized and produces a lot of data in its wake.
+* Models are initialized with some degree of randomness which renders the pretrained models useless if some training is not performed on them upon loading.
+* Finetuning does not seem to improve the statistics.
+* The methodology for comparing two models is ready; due to non-deterministic behaviour of loaded models they can be pretrained and then evaluated, yielding a measurement which can be recorded and, after gathering a decent sample, analyzed.
 ## TODO
 
 
@@ -351,7 +359,7 @@ model_args = {
 
 ~~2. evaluate the most promising models (per language) on the lgbt+migrants FRENK data~~
 
-3. perform the evaluation by fine-tuning a model five times (suggestions to more or less iterations welcome), and present the mean of the macro-F1 and accuracy, as well as calculate whether the differences to other models results are statistically significant, quite probably via a t-test (other suggestions welcome, wilcoxon might be better due to small number of observations, or not? - please investigate)
+~~3. perform the evaluation by fine-tuning a model five times (suggestions to more or less iterations welcome), and present the mean of the macro-F1 and accuracy, as well as calculate whether the differences to other models results are statistically significant, quite probably via a t-test (other suggestions welcome, wilcoxon might be better due to small number of observations, or not? - please investigate)~~
 
 ~~4. register with HuggingFace so that you can publish models there~~
 
