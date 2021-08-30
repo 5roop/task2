@@ -316,6 +316,32 @@ I started with the latter bulletpoint as it is more honest and scientifically ju
 
 It is again clear that we do not need sophisticated statistical tools to determine to determine that our model is not yet worthy of publication. Judging from the trend observed not even longer training times can improve the accuracies. 
 
+
+## Technical details
+
+Training with HF was performed 5 times with the following parameters:
+
+```python
+training_args = TrainingArguments(
+    output_dir = "./outputs",
+    num_train_epochs = 7,
+    per_device_train_batch_size = 4,
+    warmup_steps = 100,
+    learning_rate = 3e-5,
+    logging_dir = "./runs",
+    overwrite_output_dir=True
+)
+```
+
+and when evaluating, `simpletransformers` was used with these parameters:
+```python
+model_args = {
+        "num_train_epochs": 5,
+        "learning_rate": 1e-5,
+        "overwrite_output_dir": True,
+        "train_batch_size": 40
+    }
+```
 ## TODO
 
 
