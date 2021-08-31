@@ -38,7 +38,7 @@ model_args = {
 |hr|0.833|0.824|
 |hr|0.837|0.827|
 
-Note that the training was performed a few times to get a better picture of its behaviour. May it also be noted that in comparison with the results from Task1 these metrics are worse, and the optimization of hyperparameters seems useless, but it must be observed that the input data to both tests were different, as before we only used the `lgbt` dataset and the numbers can not be compared directly.
+Note that the training was performed a few times to get a better picture of its behaviour. May it also be noted that in comparison with the results from Task 1 these metrics are worse, and the optimization of hyperparameters seems useless, but it must be observed that the input data to both tests were different, as before we only used the `lgbt` dataset and the numbers can not be compared directly.
 
 
 
