@@ -342,7 +342,85 @@ model_args = {
         "train_batch_size": 40
     }
 ```
+In an effort to improve the results I also tried initializing the model to be pretrained with different types of models:
 
+* tokenizer: `BertTokenizer`, model: `BertForSequenceClassification`
+* * Works, but only as well as previously tried models
+* `BertTokenizer, BertModel` and  `AutoTokenizer, AutoModelForPreTraining` raise issues:
+```python
+KeyError                                  Traceback (most recent call last)
+<ipython-input-3-00f45de989b9> in <module>
+     92     )
+     93 
+---> 94     trainer.train()
+     95     model.save_pretrained(out_filename_after_additional_training)
+     96     tokenizer.save_pretrained(out_filename_after_additional_training)
+
+~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in train(self, resume_from_checkpoint, trial, ignore_keys_for_eval, **kwargs)
+   1278                         tr_loss += self.training_step(model, inputs)
+   1279                 else:
+-> 1280                     tr_loss += self.training_step(model, inputs)
+   1281                 self.current_flos += float(self.floating_point_ops(inputs))
+   1282 
+
+~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in training_step(self, model, inputs)
+   1771                 loss = self.compute_loss(model, inputs)
+   1772         else:
+-> 1773             loss = self.compute_loss(model, inputs)
+   1774 
+   1775         if self.args.n_gpu > 1:
+
+~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in compute_loss(self, model, inputs, return_outputs)
+   1813         else:
+   1814             # We don't use .loss here since the model may return tuples instead of ModelOutput.
+-> 1815             loss = outputs["loss"] if isinstance(outputs, dict) else outputs[0]
+   1816 
+   1817         return (loss, outputs) if return_outputs else loss
+
+~/anaconda3/lib/python3.8/site-packages/transformers/file_utils.py in __getitem__(self, k)
+   1885         if isinstance(k, str):
+   1886             inner_dict = {k: v for (k, v) in self.items()}
+-> 1887             return inner_dict[k]
+   1888         else:
+   1889             return self.to_tuple()[k]
+
+KeyError: 'loss'
+```
+and 
+
+```python 
+ ~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in train(self, resume_from_checkpoint, trial, ignore_keys_for_eval, **kwargs)
+   1278                         tr_loss += self.training_step(model, inputs)
+   1279                 else:
+-> 1280                     tr_loss += self.training_step(model, inputs)
+   1281                 self.current_flos += float(self.floating_point_ops(inputs))
+   1282 
+
+~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in training_step(self, model, inputs)
+   1771                 loss = self.compute_loss(model, inputs)
+   1772         else:
+-> 1773             loss = self.compute_loss(model, inputs)
+   1774 
+   1775         if self.args.n_gpu > 1:
+
+~/anaconda3/lib/python3.8/site-packages/transformers/trainer.py in compute_loss(self, model, inputs, return_outputs)
+   1803         else:
+   1804             labels = None
+-> 1805         outputs = model(**inputs)
+   1806         # Save past state if it exists
+   1807         # TODO: this needs to be fixed and made cleaner later.
+
+~/anaconda3/lib/python3.8/site-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1049         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1050                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1051             return forward_call(*input, **kwargs)
+   1052         # Do not call functions when jit is used
+   1053         full_backward_hooks, non_full_backward_hooks = [], []
+
+TypeError: forward() got an unexpected keyword argument 'labels'
+```
+
+respectively.
 ## TD;DR
 
 * I perform training with HF and evaluation (which requires some further training) with `simpletransformers`
