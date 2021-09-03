@@ -432,7 +432,9 @@ Strategy: most_frequent
 Strategy: stratified
 |  language | accuracy  |  f1 |
 |---|---|---|
-|hr| 0.531 | 0.508 |
+|hr| 0.527 | 0.506 |
+
+
 
 
 ## TD;DR
