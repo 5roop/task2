@@ -421,6 +421,20 @@ TypeError: forward() got an unexpected keyword argument 'labels'
 ```
 
 respectively.
+# Dummy Classifier on merged data
+
+To compare the statistics I can achieve a dummy classifier was used with two _strategies_. The results are as follows:
+
+Strategy: most_frequent
+|  language | accuracy  |  f1 |
+|---|---|---|
+|hr| 0.391 | 0.0937 |
+Strategy: stratified
+|  language | accuracy  |  f1 |
+|---|---|---|
+|hr| 0.316 | 0.16 |
+
+
 ## TD;DR
 
 * I perform training with HF and evaluation (which requires some further training) with `simpletransformers`
